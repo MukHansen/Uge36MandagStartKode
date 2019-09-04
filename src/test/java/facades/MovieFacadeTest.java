@@ -1,7 +1,7 @@
 package facades;
 
 import utils.EMF_Creator;
-import entities.RenameMe;
+import entities.Movie;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.AfterAll;
@@ -16,12 +16,12 @@ import utils.EMF_Creator.Strategy;
 
 //Uncomment the line below, to temporarily disable this test
 //@Disabled
-public class FacadeExampleTest {
+public class MovieFacadeTest {
 
     private static EntityManagerFactory emf;
-    private static FacadeExample facade;
+    private static MovieFacade facade;
 
-    public FacadeExampleTest() {
+    public MovieFacadeTest() {
     }
 
     //@BeforeAll
@@ -32,7 +32,7 @@ public class FacadeExampleTest {
                 "dev",
                 "ax2",
                 EMF_Creator.Strategy.CREATE);
-        facade = FacadeExample.getFacadeExample(emf);
+        facade = MovieFacade.getMovieFacade(emf);
     }
 
     /*   **** HINT **** 
@@ -43,8 +43,8 @@ public class FacadeExampleTest {
      */
     @BeforeAll
     public static void setUpClassV2() {
-       emf = EMF_Creator.createEntityManagerFactory(DbSelector.TEST,Strategy.DROP_AND_CREATE);
-       facade = FacadeExample.getFacadeExample(emf);
+        emf = EMF_Creator.createEntityManagerFactory(DbSelector.TEST, Strategy.DROP_AND_CREATE);
+        facade = MovieFacade.getMovieFacade(emf);
     }
 
     @AfterAll
@@ -57,11 +57,15 @@ public class FacadeExampleTest {
     @BeforeEach
     public void setUp() {
         EntityManager em = emf.createEntityManager();
+        String[] actors1 = {"Torben", "Chris"};
+        String[] actors2 = {"Ib", "Bo"};
+        Movie movie1 = new Movie(2004, "T&C", actors1);
+        Movie movie2 = new Movie(1999, "I&B", actors2);
         try {
             em.getTransaction().begin();
-            em.createNamedQuery("RenameMe.deleteAllRows").executeUpdate();
-            em.persist(new RenameMe("Some txt", "More text"));
-            em.persist(new RenameMe("aaa", "bbb"));
+            em.createNamedQuery("Movie.deleteAllRows").executeUpdate();
+            em.persist(movie1);
+            em.persist(movie2);
 
             em.getTransaction().commit();
         } finally {
@@ -75,9 +79,9 @@ public class FacadeExampleTest {
     }
 
     // TODO: Delete or change this method 
-    @Test
-    public void testAFacadeMethod() {
-        assertEquals(2, facade.getRenameMeCount(), "Expects two rows in the database");
-    }
+//    @Test
+//    public void testAFacadeMethod() {
+//        assertEquals(2, facade.getAllMovies(), "Expects two rows in the database");
+//    }
 
 }
