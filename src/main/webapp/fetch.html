@@ -9,22 +9,20 @@
         <!--      <table id="myTable" class="container" border="1"></table> -->
         <div id="userDiv"></div>
         <script>
-            document.querySelector("#getUser").onclick = getUser;
             document.querySelector("#getAllUsers").onclick = getAllUsers;
 
             var userDiv = document.getElementById("userDiv");
-            var Id = document.getElementById("userId").value;
 
             function makeAllUsersTable(users) {
-                var table = users.map(user => "<tr><td>" + user.name + "</td><td>" + user.phone + "</td></tr>");
-                table.unshift("<table class=\"table\" border=\"1\"><tr><th>Name</th><th>Phone</th></tr>");
+                var table = users.map(user => "<tr><td>" + user.name + "</td><td>" + user.year + "</td></tr>");
+                table.unshift("<table class=\"table\" border=\"1\"><tr><th>Film</th><th>År</th></tr>");
                 table.push("</table>");
                 return table.join('');
             }
 
             function getAllUsers(e) {
                 e.preventDefault();
-                let url = "/all";
+                let url = "api/movie/all";
                 fetch(url)
                         .then(res => res.json()) //in flow1, just do it
                         .then(data => {
