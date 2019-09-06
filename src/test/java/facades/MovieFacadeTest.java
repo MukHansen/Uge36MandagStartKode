@@ -59,11 +59,11 @@ public class MovieFacadeTest {
         EntityManager em = emf.createEntityManager();
         String[] actors1 = {"Torben", "Chris"};
         String[] actors2 = {"Ib", "Bo"};
-        Movie movie1 = new Movie(2004, "T&C", actors1);
-        Movie movie2 = new Movie(1999, "I&B", actors2);
+        Movie movie1 = new Movie(2004, "TogC", actors1);
+        Movie movie2 = new Movie(1999, "IogB", actors2);
         try {
             em.getTransaction().begin();
-            em.createNamedQuery("Movie.deleteAllRows").executeUpdate();
+            em.createNativeQuery("DELETE FROM MOVIE") .executeUpdate();
             em.persist(movie1);
             em.persist(movie2);
 

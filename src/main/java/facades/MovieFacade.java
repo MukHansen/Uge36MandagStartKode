@@ -1,11 +1,13 @@
 package facades;
 
+import dto.MovieDTO;
 import entities.Movie;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -49,10 +51,10 @@ public class MovieFacade {
 
     }
 
-    public List<Movie> getAllMovies() {
+    public List<MovieDTO> getAllMovies() {
         EntityManager em = emf.createEntityManager();
         try {
-            List<Movie> movies = em.createQuery("SELECT m FROM Movie m").getResultList();
+            List<MovieDTO> movies = em.createQuery("SELECT m FROM Movie m").getResultList();
             return movies;
         } finally {
             em.close();
@@ -60,15 +62,25 @@ public class MovieFacade {
 
     }
 
-    public Movie getMovieByName(String name) {
-        EntityManager em = emf.createEntityManager();
-        return em.find(Movie.class, name);
+    public List<MovieDTO> getMovieByName(String name) {
+        
+                EntityManager em = emf.createEntityManager();
+        try {
+            TypedQuery<MovieDTO> query = em.createQuery("SELECT m FROM Movie m WHERE m.name = :name", MovieDTO.class)
+                    .setParameter("name", name);
+            
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
     }
 
-    public Movie getMovieById(Long id) {
+    public MovieDTO getMovieById(long id) {
         EntityManager em = emf.createEntityManager();
         try {
-            return em.find(Movie.class, id);
+            Movie movie = em.find(Movie.class, id);
+            MovieDTO movieDTO = new MovieDTO(movie);
+            return movieDTO;
         } finally {
             em.close();
         }

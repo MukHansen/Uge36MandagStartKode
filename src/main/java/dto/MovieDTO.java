@@ -13,7 +13,7 @@ import entities.Movie;
  */
 public class MovieDTO {
 
-    private Long id;
+    private long id;
     private int year;
     private String name;
     private String[] actors;

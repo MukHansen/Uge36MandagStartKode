@@ -2,6 +2,7 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import dto.MovieDTO;
 import entities.Movie;
 import utils.EMF_Creator;
 import facades.MovieFacade;
@@ -52,18 +53,16 @@ public class MovieResource {
         throw new UnsupportedOperationException();
     }
 
-    @Path("{id}")
+    @Path("/{id}")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String getMovieById(@PathParam("id") Long id) {
-        Movie movie = FACADE.getMovieById(id);
-        System.out.println("test film " + movie.getName() + " ID = " + movie.getId());
-
+        MovieDTO movie = FACADE.getMovieById(id);
         return GSON.toJson(movie);
     }
 
     @GET
-    @Path("/{name}")
+    @Path("/name/{name}")
     @Produces({MediaType.APPLICATION_JSON})
     public String getMovieByName(@PathParam("name") String name) {
         return GSON.toJson(FACADE.getMovieByName(name));
@@ -73,7 +72,7 @@ public class MovieResource {
     @Path("all")
     @Produces({MediaType.APPLICATION_JSON})
     public String getAllMovies() {
-        List<Movie> movies = FACADE.getAllMovies();
+        List<MovieDTO> movies = FACADE.getAllMovies();
         return GSON.toJson(movies);
     }
 
